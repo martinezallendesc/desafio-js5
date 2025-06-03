@@ -5,6 +5,7 @@ const totalTareas = document.getElementById("q-tareas")
 const tareasPendientes = document.getElementById("q-pendientes")
 const tareasCompletadas = document.getElementById("q-pendientes")
 const listaTareas = document.getElementById("tabla-tareas")
+let ultimoIndice = 4
 
 //2. Crear el arreglo
 const tareas = [
@@ -44,8 +45,30 @@ const tareas = [
 
 btnTarea.addEventListener("click", () => {
     const valor = inputTarea.value
-
+    if (valor.length <= 2) {
+        alert ("La tarea debe tener al menos dos palabras")
+    return
+    }
+    agregarTarea(valor)
 })
+
+// 4. Agregar la tarea al listado de tareas
+function agregarTarea (valor) {
+   const objetoTarea = 
+    {
+        id: ++ultimoIndice,
+        tarea: valor,
+        completada: false,
+    }
+    
+    tareas.push(objetoTarea)
+    mostrarTareas()
+    inputTarea.value = ""
+
+}
+
+
+
 
 // 4. Mostrar tareas en la tabla
 
