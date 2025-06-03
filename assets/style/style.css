@@ -42,8 +42,6 @@ body {
 grid-template-areas: 
 "campo campo"
 "resumen listado";
-
-
     height: 100vh;
     gap: 10px;
 }
