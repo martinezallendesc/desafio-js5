@@ -3,7 +3,7 @@ const inputTarea = document.querySelector("#campo-tarea")
 const btnTarea = document.getElementById("agregar-tarea")
 const totalTareas = document.getElementById("q-tareas")
 const tareasPendientes = document.getElementById("q-pendientes")
-const tareasCompletadas = document.getElementById("q-pendientes")
+const tareasCompletadas = document.getElementById("q-completadas")
 const listaTareas = document.getElementById("tabla-tareas")
 let ultimoIndice = 4
 
@@ -69,7 +69,6 @@ function agregarTarea (valor) {
 
 
 
-
 // 4. Mostrar tareas en la tabla
 
 function mostrarTareas() {
@@ -79,13 +78,42 @@ function mostrarTareas() {
         <tr>
             <td>${tarea.id}</td>
             <td>${tarea.tarea}</td>
-            <td><input type='checkbox' ${tarea.completada ? 'checked="checked"' : ''}></td>
-            <td><img src="./assets/img/cruz.png" style="width:10px"></img></td>
+            <td><input type='checkbox' onChange="completarTarea(${tarea.id}, this.checked)" ${tarea.completada ? 'checked="checked"' : ''}></td>
+            <td><button onClick="eliminar(${tarea.id})"><img src="./assets/img/cruz.png" style="width:10px"></img></button></td>
         </tr>
         `)
         .forEach((linea) => { texto += linea });
 
     listaTareas.innerHTML = texto;
+    resumenTareas()
 }
 
 mostrarTareas();
+
+// 5. Crear la función eliminar para eliminar una tarea
+
+function eliminar (id) {
+const index = tareas.findIndex(tarea => id == tarea.id)
+tareas.splice(index,1)
+mostrarTareas()
+}
+
+// 6. Completar tareas
+
+function completarTarea(id, completado) {
+const index = tareas.findIndex(tarea => id == tarea.id)
+tareas[index].completada = completado
+mostrarTareas()
+
+console.log(tareas)
+}
+
+// Resumen de tareas
+function resumenTareas () {
+    const cantidadTareas = tareas.length
+totalTareas.innerHTML = cantidadTareas
+    const cantidadCompletadas =  tareas.filter(tarea => tarea.completada == true).length 
+tareasCompletadas.innerHTML = cantidadCompletadas
+
+tareasPendientes.innerHTML = cantidadTareas - cantidadCompletadas
+}
